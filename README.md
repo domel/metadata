@@ -122,8 +122,8 @@ pip install neo4j
 
 ### Neo4j requirements (tested setup)
 
-* **Neo4j 4.4.42** (community or enterprise)
-* **APOC 4.4.x** installed and enabled
+* **Neo4j 5.26.x** (community or enterprise)
+* **APOC 5.x.y** installed and enabled
 
 > The benchmark runner uses APOC procedures (notably `apoc.import.csv` and `apoc.version()`).
 
