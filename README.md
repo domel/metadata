@@ -7,10 +7,10 @@ It provides:
 - a **deterministic synthetic dataset generator** producing three datasets (*D1-S*, *D2-M*, *D3-L*),
 - four **encoding variants** (*gpg*, *gpge*, *gpgp*, *gpgc*),
 - a **benchmark runner** that repeatedly:
-  1) clears the database,  
-  2) loads CSV data via `apoc.import.csv`,  
-  3) measures load time and on-disk sizes,  
-  4) optionally runs a **workload suite** (WQ-A–WQ-D) to measure query-time overhead,  
+  1) clears the database,
+  2) loads CSV data via `apoc.import.csv`,
+  3) measures load time and on-disk sizes,
+  4) optionally runs a **workload suite** (WQ-A–WQ-D) to measure query-time overhead,
   5) appends results to a uniform CSV file.
 
 A consolidated listing of the Cypher workloads and the loading workflow is provided in **`online_appendix.md`**.
@@ -45,15 +45,15 @@ A consolidated listing of the Cypher workloads and the loading workflow is provi
 
 ### What each file does
 
-- **`gpg_dataset_generator.py`**  
+- **`gpg_dataset_generator.py`**
   Generates `datasets/<DATASET>/<VARIANT>/*.csv` plus an `import.apoc.cypher` helper script.
   The generator is deterministic given `--seed`.
 
-- **`load_*.cypher`**  
+- **`load_*.cypher`**
   Ready-to-run Neo4j Browser scripts containing `CALL apoc.import.csv(...)` with **hardcoded URLs**
   (assuming files are served from `http://localhost:8000/`).
 
-- **`benchmark_loads.py`**  
+- **`benchmark_loads.py`**
   Automated benchmark runner:
   - starts/stops a local HTTP server serving `./datasets`,
   - clears Neo4j,
@@ -62,7 +62,7 @@ A consolidated listing of the Cypher workloads and the loading workflow is provi
   - optionally executes workload queries (WQ-A–WQ-D),
   - writes results to `neo4j_load_benchmark_results.csv`.
 
-- **`online_appendix.md`**  
+- **`online_appendix.md`**
   Human-readable reference: workload definitions (WQ-A–WQ-D), loading conventions, APOC import settings,
   and recommended indexes/constraints.
 
@@ -72,29 +72,29 @@ A consolidated listing of the Cypher workloads and the loading workflow is provi
 
 Each dataset can be instantiated in four encodings:
 
-- **`gpg` (baseline)**  
+- **`gpg` (baseline)**
   Logical relationship types are carried by membership in `k_noval`, while relationships are stored as native `:REL`.
   City populations are stored as a multi-valued property (value-set) on the city node.
 
-- **`gpge` (edge-fact reification)**  
+- **`gpge` (edge-fact reification)**
   Each logical relationship fact is represented by an `:EdgeFact` node connected to endpoints via `:SRC` and `:TGT`.
   Provenance sources are connected via `:HAS_SOURCE`. City populations remain a value-set on the city node.
 
-- **`gpgp` (property-occurrence reification)**  
+- **`gpgp` (property-occurrence reification)**
   In addition to edge-facts, population values are stored as explicit **occurrences** via:
-  `(:Entity)<-[:SRC]-(:PropEdge)-[:TGT]->(:Value)`  
+  `(:Entity)<-[:SRC]-(:PropEdge)-[:TGT]->(:Value)`
   where `PropEdge` carries metadata such as `m_point_in_time`, `m_confidence`.
 
-- **`gpgc` (component-level metadata)**  
+- **`gpgc` (component-level metadata)**
   Extends `gpgp` with **structured values** and **field-level metadata** using:
-  `(:CompEdge)-[:SRC]->(root:Value)` and `(:CompEdge)-[:TGT]->(fieldValue:Value)`  
+  `(:CompEdge)-[:SRC]->(root:Value)` and `(:CompEdge)-[:TGT]->(fieldValue:Value)`
   enabling metadata directly on sub-values (e.g., ZIP field curator / last-updated).
 
 ---
 
 ## Datasets
 
-Three synthetic datasets are generated (scale increases from D1 to D3).  
+Three synthetic datasets are generated (scale increases from D1 to D3).
 Each dataset contains:
 
 - two entity kinds: `Person` and `City`,
@@ -197,10 +197,10 @@ python3 benchmark_loads.py --noqueries
 ```python
 NEO4J_URI = "bolt://localhost:7687"
 NEO4J_USER = "neo4j"
-NEO4J_PASSWORD = "domeldomel"
+NEO4J_PASSWORD = "PASWORD"
 NEO4J_DATABASE = "neo4j"
 
-DBMS_DIR = Path("/home/domel/.config/Neo4j Desktop/Application/relate-data/dbmss/dbms-...")
+DBMS_DIR = Path("DBMS_DIR/dbmss/dbms-...")
 
 RESULTS_CSV = Path("neo4j_load_benchmark_results.csv")
 ```
